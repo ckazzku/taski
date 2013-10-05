@@ -1,0 +1,25 @@
+[
+    {
+        "type": "title",
+        "title": "Server"
+    },
+    {
+        "type": "string",
+        "title": "Address",
+        "desc": "Address to tasks server",
+        "section": "server",
+        "key": "address"
+    },
+
+    {
+        "type": "title",
+        "title": "Widgets"
+    },
+    {
+        "type": "numeric",
+        "title": "Font size",
+        "desc": "Font size",
+        "section": "widgets",
+        "key": "font-size"
+    }
+]

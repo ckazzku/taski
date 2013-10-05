@@ -1,0 +1,149 @@
+#-*- coding:utf-8 -*-
+
+#:kivy 1.0.9
+#:import da kivy.adapters.dictadapter
+#:import la kivy.adapters.listadapter
+#:import lv kivy.uix.listview
+#:import pr kivy.properties
+#:import dt data.Data
+
+# -----------------------------------------------------------------------------
+# Main
+# ----------------------------------------------------------------------------- 
+
+<ErrorPopup>:
+    size_hint: 0.9, 0.9
+    auto_dismiss: False
+    title: 'Error'
+    Button:
+        text: root.message
+        size_hint: 1, 1
+        text_size: self.size
+        shorten: False
+        valign: 'middle'
+        halign: 'center'
+        color: 1, 1, 1, 1
+        font_size: app.config.getint('widgets', 'font-size')
+        on_press: root.dismiss()
+
+<Item>:
+    # при раскрытии записать текущий id
+    on_collapse: dt.current = self.container.children[0].current
+
+<ContentView>:
+    cols: 2
+    orientation: 'vertical'
+
+    Label:
+        text: 'Title:'
+        size_hint: 0.2, 0.25
+    TextInput:
+        id: title_id
+        multiline: False
+        size_hint: 0.8, 0.25
+        font_size: app.config.getint('widgets', 'font-size')
+        text: dt.get_value('title')
+        on_text: dt.set_value('title', self.text)
+
+    Label:
+        text: 'Description:'
+        size_hint: 0.2, 0.1
+    TextInput:
+        id: description_id
+        multiline: True
+        size_hint: title_id.size_hint
+        font_size: title_id.font_size
+        text: dt.get_value('description')
+        on_text: dt.set_value('description', self.text)
+    
+    Label:
+        text: 'Deadline:'
+        size_hint: 0.2, 0.1
+    TextInput:
+        id: deadline_id
+        multiline: False
+        size_hint: title_id.size_hint
+        font_size: title_id.font_size
+        text: dt.get_value('deadline')
+        on_text: dt.set_value('deadline', self.text)
+
+    Label:
+        text: 'Done:'
+        size_hint: 0.2, 0.1
+    CheckBox:
+        active: dt.get_value('done')
+        size_hint: title_id.size_hint
+        on_active: dt.set_value('done', self.active)
+
+<AddTaskView>:
+    size_hint: 0.9, 0.5
+    auto_dismiss: True
+    title: 'Add new task'
+    GridLayout:
+        rows: 2
+        size_hint: 0.9, 0.9
+        ContentView:
+            id: content_id
+        Button:
+            text: 'Add'
+            size_hint: 1, 0.1
+            text_size: self.size
+            shorten: False
+            valign: 'middle'
+            halign: 'center'
+            color: 1, 1, 1, 1
+            font_size: app.config.getint('widgets', 'font-size')
+            on_press: root.add_data(); root.dismiss()
+
+# -----------------------------------------------------------------------------
+# Main
+# -----------------------------------------------------------------------------
+
+<MainView>:
+    id: main_view_id
+    accordion: accordion_id
+    orientation: 'vertical'
+    size_hint: 1, 1
+    ScrollView:
+        do_scroll_x: False
+        do_scroll_y: True
+        Accordion:
+            id: accordion_id
+            anim_duration: 0.0001
+            orientation: 'vertical'
+            size_hint_y: None
+            height: app.config.getint('widgets', 'font-size') * 2 * 6 + self.min_space * len(self.children)
+    ActionBar:
+        background_color: 1, 1, 1, 1
+        border: 0, 0, 0, 0
+        ActionView:
+            use_separator: False
+            ActionPrevious:
+                title: ''
+                with_previous: False
+            ActionOverflow:
+            ActionButton:
+                text: 'Get'
+                #icon: 'atlas://data/images/defaulttheme/audio-volume-high'
+                on_release: root.get_all()
+            ActionButton:
+                text: 'New'
+                #icon: 'atlas://data/images/defaulttheme/audio-volume-high'
+                on_release: root.add_new()
+            ActionButton:
+                text: 'Upd'
+                width: 10
+                #icon: 'atlas://data/images/defaulttheme/audio-volume-high'
+                on_release: root.update_current()
+            ActionButton:
+                text: 'Del'
+                #icon: 'atlas://data/images/defaulttheme/audio-volume-high'
+                on_release: root.del_current()
+            ActionButton:
+                text: 'Settings'
+                #icon: 'atlas://data/images/defaulttheme/audio-volume-high'
+                on_release: root.show_settings()
+
+# -----------------------------------------------------------------------------
+# Settings
+# -----------------------------------------------------------------------------
