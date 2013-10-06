@@ -3,7 +3,7 @@
 import datetime
 
 DEBUG = True
-SQLALCHEMY_DATABASE_URI = 'sqlite:///../db/tasks.db'
+SQLALCHEMY_DATABASE_URI = 'sqlite:///taski.db'
 JSON_AS_ASCII = False
 USE_X_SENDFILE = False
 SESSION_COOKIE_PATH = None
