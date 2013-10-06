@@ -1,4 +1,4 @@
-tasks
+taski
 =====
 
-Tasks with kivy
+Taski with kivy https://github.com/kivy/kivy
